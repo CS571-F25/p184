@@ -1,37 +1,53 @@
 import { useState } from "react";
-import "./DestinationCard.css";
+import { Card, Button } from "react-bootstrap";
 import { useSaved } from "./SavedContext";
-
 
 export default function DestinationCard({ name, image, description }) {
   const [showMore, setShowMore] = useState(false);
-  const [saveCount, setSaveCount] = useState(0);
-  const { addToSaved } = useSaved();
+  const { savedList, addToSaved, removeFromSaved } = useSaved();
+
+  const isSaved = savedList.some((item) => item.name === name);
+
+  const handleToggleMore = () => {
+    setShowMore((prev) => !prev);
+  };
+
+  const handleToggleSave = () => {
+    if (isSaved) {
+      removeFromSaved(name);
+    } else {
+      addToSaved({ name, image, description });
+    }
+  };
+
+  const shortText =
+    description.length > 40 ? description.slice(0, 40) + "..." : description;
+
+  const buttonText = isSaved ? "✓ Saved" : "❤️ Save";
+  const buttonVariant = isSaved ? "success" : "danger";
 
   return (
-    <div className="card-container">
-      <img src={image} alt={name} className="card-image" />
+    <Card className="h-100 shadow-sm">
+      <Card.Img variant="top" src={image} alt={name} />
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
+        <Card.Text>{showMore ? description : shortText}</Card.Text>
 
-      <h4>{name}</h4>
+        <div className="d-flex justify-content-between">
+          <Button
+            variant="outline-primary"
+            size="sm"
+            onClick={handleToggleMore}
+          >
+            {showMore ? "Hide" : "More"}
+          </Button>
 
-      {showMore && (
-        <p className="card-description">
-          {description}
-        </p>
-      )}
-
-      <button onClick={() => setShowMore(!showMore)}>
-        {showMore ? "Hide" : "More"}
-      </button>
-
-        <button onClick={() => { 
-        setSaveCount(saveCount + 1); 
-        addToSaved({ name, image, description }); 
-        }}>
-        ❤️ Save ({saveCount})
-        </button>
-
-
-    </div>
+          <Button variant={buttonVariant} size="sm" onClick={handleToggleSave}>
+            {buttonText}
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
   );
 }
+

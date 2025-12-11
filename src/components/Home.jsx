@@ -1,35 +1,48 @@
 import { Link } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 export default function Home() {
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Travel Website — Find Your Destination!</h1>
+    <Container className="py-4">
+      <Row className="mb-4">
+        <Col>
+          <h1>Travel Finder — Find Your Destination</h1>
+          <p className="text-muted">
+            Discover new places, save your favourites and share your own travel stories.
+          </p>
+        </Col>
+      </Row>
 
-      {/* 大图 */}
-      <img 
-        src="https://picsum.photos/800/300?random=1" 
-        alt="Beautiful View"
-        style={{ width: "80%", borderRadius: "10px", marginTop: "20px" }}
-      />
+      <Row className="mb-4">
+        <Col>
+          <img
+            src="https://picsum.photos/800/300?random=1"
+            alt="Beautiful view of a travel destination"
+            className="img-fluid rounded"
+          />
+        </Col>
+      </Row>
 
-      {/* 快速入口 */}
-      <div style={{ marginTop: "30px", fontSize: "20px" }}>
-        <p><Link to="/destinations">◀ Destinations Recommended</Link></p>
-        <p><Link to="/comment">◀ Share Your Experience</Link></p>
-      </div>
+      <Row className="mb-5">
+        <Col md={6} className="d-grid mb-3 mb-md-0">
+          <Button as={Link} to="/destinations" variant="primary" size="lg">
+            Browse destinations
+          </Button>
+        </Col>
+        <Col md={6} className="d-grid">
+          <Button as={Link} to="/comment" variant="outline-primary" size="lg">
+            Share your experience
+          </Button>
+        </Col>
+      </Row>
 
-      {/* 联系方式 */}
-      <div style={{
-        marginTop: "40px",
-        padding: "20px",
-        borderTop: "1px solid #ccc",
-        width: "80%",
-        marginLeft: "auto",
-        marginRight: "auto"
-      }}>
-        <p>Contact Information: xxx-xxx-xxxx</p>
-        <p>Email: example@gmail.com</p>
-      </div>
-    </div>
+      <Row className="border-top pt-3">
+        <Col md={6}>
+          <h2 className="h5">Contact</h2>
+          <p className="mb-1">Phone: xxx-xxx-xxxx</p>
+          <p className="mb-0">Email: example@gmail.com</p>
+        </Col>
+      </Row>
+    </Container>
   );
 }
